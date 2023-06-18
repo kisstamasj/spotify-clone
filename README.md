@@ -2,11 +2,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-1. Make supabase project. [https://supabase.com/](https://supabase.com/)
+1. Create supabase project. [https://supabase.com/](https://supabase.com/)
 
-2. Make .env.local file from the example.
+2. Create github app in github.com and connect with supabase project.
 
-3. Run the development server:
+3. Create .env.local file from the example.
+
+4. Run the development server:
 
 ```bash
 npm run dev
