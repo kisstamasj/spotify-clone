@@ -9,7 +9,7 @@ const useGetSongById = (id: string | undefined) => {
   const { supabaseClient } = useSessionContext();
   useEffect(() => {
     if (!id) {
-      return;
+      return undefined;
     }
 
     setIsLoading(true);
