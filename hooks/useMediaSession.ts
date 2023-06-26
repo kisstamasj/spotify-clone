@@ -17,7 +17,7 @@ const useMediaSession = (
     const actionHandlers: ActionHandlersType[] = [
       {
         action: "play",
-        handler: async () => {
+        handler: () => {
           audio.play();
         },
       },
