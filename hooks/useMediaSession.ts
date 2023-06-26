@@ -1,4 +1,4 @@
-import { Song } from "@/libx/types";
+import { Song } from "@/libs/types";
 import { Howl } from "howler";
 
 type ActionHandlersType = {

@@ -1,6 +1,7 @@
-import { PlayerStore } from "./usePlayer";
+import usePlayer from "./usePlayer";
 
-const usePlayNext = (player: PlayerStore) => {
+const usePlayNext = () => {
+  const player = usePlayer();
   const onPlayNext = () => {
     if (player.ids.length === 0) {
       return;
