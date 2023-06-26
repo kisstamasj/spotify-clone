@@ -5,7 +5,7 @@ import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 
-import { Song } from "@/libx/types";
+import { Song } from "@/libs/types";
 import MediaItem from "./MediaItem";
 import LikeButton from "./LikeButton";
 import Slider from "./Slider";

@@ -15,8 +15,6 @@ const MediaItem: React.FC<MediaItemProps> = ({ data, onClick }) => {
     if (onClick) {
       return onClick(data.id);
     }
-
-    // TODO: player
   };
   return (
     <div
@@ -31,12 +29,11 @@ const MediaItem: React.FC<MediaItemProps> = ({ data, onClick }) => {
                 rounded-md"
     >
       <div
-        className="
-                relative
-                rounded-md
-                min-h-[48px]
-                min-w-[48px]
-                overflow-hidden"
+        className="relative
+        rounded-md
+        min-h-[48px]
+        min-w-[48px]
+        overflow-hidden"
       >
         <Image
           src={imageUrl || "/images/liked.png"}
