@@ -78,6 +78,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
       setVolume(0);
     }
   };
+  
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 h-full">
       <div className="flex w-full justify-start">
@@ -86,6 +87,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
           <LikeButton songId={song.id} />
         </div>
       </div>
+      {/* Mobile controls */}
       <div className="flex md:hidden col-auto w-full justify-end items-center gap-x-3">
         <AiFillStepBackward
           size={30}
@@ -104,6 +106,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
           onClick={onPlayNext}
         />
       </div>
+      {/* Desktop controls */}
       <div className="hidden h-full md:flex justify-center items-center w-full max-w-[722px] gap-x-6">
         <AiFillStepBackward
           size={30}
@@ -122,7 +125,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
           onClick={onPlayNext}
         />
       </div>
-
+      {/* Only on desktop */}
       <div className="hidden md:flex w-full justify-end pr-2">
         <div className="flex items-center gap-x-2 w-[120px]">
           <VolumeIcon
