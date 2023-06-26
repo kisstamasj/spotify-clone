@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Song } from '../lib/types';
-import useLoadImage from '../hooks/useLoadImage';
-import Image from 'next/image';
-import PlayButton from './PlayButton';
+import React from "react";
+import { Song } from "../libs/types";
+import useLoadImage from "../hooks/useLoadImage";
+import Image from "next/image";
+import PlayButton from "./PlayButton";
 
 interface SongItemProps {
   onClick: (id: string) => void;
@@ -16,7 +16,7 @@ const SongItem: React.FC<SongItemProps> = ({ onClick, data }) => {
   return (
     <div
       onClick={() => onClick(data.id)}
-      className='
+      className="
                 relative
                 group
                 flex
@@ -29,24 +29,31 @@ const SongItem: React.FC<SongItemProps> = ({ onClick, data }) => {
                 cursor-pointer
                 hover:bg-neutral-400/10
                 transition
-                p-3'
+                p-3"
     >
       <div
-        className='
+        className="
             relative
             aspect-square
             w-full
             h-full
             rounded-md
-            overflow-hidden'
+            overflow-hidden"
       >
-        <Image className='object-cover' src={imagePath || '/images/liked.png'} fill alt='image' />
+        <Image
+          className="object-cover"
+          src={imagePath || "/images/liked.png"}
+          fill
+          alt="image"
+        />
       </div>
-      <div className='flex flex-col items-start w-full pt-4 gap-y-1'>
-        <p className='font-semibold truncate w-full'>{data.title}</p>
-        <p className='text-neutral-400 text-sm pb-4 w-full truncate'>By {data.author}</p>
+      <div className="flex flex-col items-start w-full pt-4 gap-y-1">
+        <p className="font-semibold truncate w-full">{data.title}</p>
+        <p className="text-neutral-400 text-sm pb-4 w-full truncate">
+          By {data.author}
+        </p>
       </div>
-      <div className='absolute bottom-24 right-5'>
+      <div className="absolute bottom-24 right-5">
         <PlayButton />
       </div>
     </div>

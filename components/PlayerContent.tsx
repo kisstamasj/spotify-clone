@@ -5,7 +5,7 @@ import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 
-import { Song } from "@/lib/types";
+import { Song } from "@/libx/types";
 import MediaItem from "./MediaItem";
 import LikeButton from "./LikeButton";
 import Slider from "./Slider";
@@ -78,7 +78,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
       setVolume(0);
     }
   };
-  
+
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 h-full">
       <div className="flex w-full justify-start">

@@ -7,7 +7,7 @@ import { BiSearch } from "react-icons/bi";
 import Box from "./box";
 import Sidebaritem from "./sidebaritem";
 import Library from "./library";
-import { Song } from "../lib/types";
+import { Song } from "../libs/types";
 import usePlayer from "@/hooks/usePlayer";
 import { twMerge } from "tailwind-merge";
 

@@ -1,4 +1,4 @@
-import { Song } from "@/lib/types";
+import { Song } from "@/libx/types";
 import { useSessionContext } from "@supabase/auth-helpers-react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";

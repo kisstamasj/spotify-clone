@@ -15,6 +15,7 @@ import useAuthModal from "../hooks/useAuthModal";
 import { useUser } from "@/hooks/useUser";
 import { toast } from "react-hot-toast";
 import usePlayer from "@/hooks/usePlayer";
+import { ClipLoader } from "react-spinners";
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -78,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
           {isLoading ? (
             <>
               <div className="flex items-center justify-center bg-white text-neutral-800 p-2 rounded-full animate-spin">
-                <AiOutlineLoading3Quarters />
+                <ClipLoader size={25} />
               </div>
             </>
           ) : user ? (

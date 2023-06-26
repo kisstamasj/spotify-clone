@@ -1,7 +1,7 @@
-import React from 'react';
-import { Song } from '../lib/types';
-import useLoadImage from '../hooks/useLoadImage';
-import Image from 'next/image';
+import React from "react";
+import { Song } from "../libs/types";
+import useLoadImage from "../hooks/useLoadImage";
+import Image from "next/image";
 
 interface MediaItemProps {
   data: Song;
@@ -21,39 +21,39 @@ const MediaItem: React.FC<MediaItemProps> = ({ data, onClick }) => {
   return (
     <div
       onClick={handleClick}
-      className='
+      className="
                 flex
                 items-center
                 gap-x-3
                 cursor-pointer
                 hover:bg-neutral-800/50
                 w-full
-                rounded-md'
+                rounded-md"
     >
       <div
-        className='
+        className="
                 relative
                 rounded-md
                 min-h-[48px]
                 min-w-[48px]
-                overflow-hidden'
+                overflow-hidden"
       >
         <Image
-          src={imageUrl || '/images/liked.png'}
-          className='object-cover'
-          alt='media item'
+          src={imageUrl || "/images/liked.png"}
+          className="object-cover"
+          alt="media item"
           fill
         />
       </div>
       <div
-        className='
+        className="
                 flex
                 flex-col
                 gap-y-1
-                overflow-hidden'
+                overflow-hidden"
       >
-        <p className='text-white truncate'>{data.title}</p>
-        <p className='text-neutral-400 text-sm truncate'>{data.author}</p>
+        <p className="text-white truncate">{data.title}</p>
+        <p className="text-neutral-400 text-sm truncate">{data.author}</p>
       </div>
     </div>
   );

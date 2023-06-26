@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { Song } from "../../../lib/types";
+import { Song } from "../../../libs/types";
 import { useRouter } from "next/navigation";
 import { useUser } from "../../../hooks/useUser";
 import MediaItem from "../../../components/MediaItem";
