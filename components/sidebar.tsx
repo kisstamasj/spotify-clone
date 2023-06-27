@@ -6,7 +6,7 @@ import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
 import Box from "./box";
 import Sidebaritem from "./sidebaritem";
-import Library from "./library";
+import Library from "@/components/Library";
 import { Song } from "../libs/types";
 import usePlayer from "@/hooks/usePlayer";
 import { twMerge } from "tailwind-merge";

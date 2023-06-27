@@ -18,4 +18,10 @@ yarn dev
 pnpm dev
 ```
 
+5. Run stripe development webhook
+```bash
+stripe listen --forward-to localhost:3000/api/webhooks
+```
+6. And copy the webhook key into the env.local
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
