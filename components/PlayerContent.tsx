@@ -91,19 +91,15 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
   }, [isPlaying, timeSpent, duration]);
 
   const handlePlay = () => {
-    if (!isPlaying) {
-      play();
-    } else {
-      pause();
-    }
+    if (!isPlaying) return play();
+
+    pause();
   };
 
   const toggleMute = () => {
-    if (volume === 0) {
-      setVolume(1);
-    } else {
-      setVolume(0);
-    }
+    if (volume === 0) return setVolume(1);
+
+    setVolume(0);
   };
 
   const handleSeek = (value: number) => {
