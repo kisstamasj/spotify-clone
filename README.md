@@ -16,7 +16,7 @@ yarn dev
 pnpm dev
 ```
 
-5. Run stripe development webhook
+5. Listen stripe webooks (only in dev)
 ```bash
 stripe listen --forward-to localhost:3000/api/webhooks
 ```
