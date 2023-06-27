@@ -14,7 +14,7 @@ const Slider: React.FC<SliderProps> = ({ value = 1, onChange }) => {
   };
   return (
     <RadixSlider.Root
-      className="relative flex items-center select-none touch-none w-full h-10"
+      className="relative flex items-center select-none touch-none w-full h-10 group"
       defaultValue={[1]}
       value={[value]}
       onValueChange={handleChange}
@@ -22,9 +22,13 @@ const Slider: React.FC<SliderProps> = ({ value = 1, onChange }) => {
       step={0.1}
       aria-label="Volume"
     >
-      <RadixSlider.Track className="bg-neutral-600 relative grow rounded-full h-[5px]">
-        <RadixSlider.Range className="absolute bg-white rounded-full h-full hover:bg-green-500 transition" />
+      <RadixSlider.Track className="bg-neutral-600 relative grow rounded-full h-[3px] group">
+        <RadixSlider.Range className="absolute bg-white rounded-full h-full group-hover:bg-green-500 transition" />
       </RadixSlider.Track>
+      <RadixSlider.Thumb
+        className="hidden bg-white w-[12px] h-[12px] group-hover:block focus:outline-none rounded-full shadow-md transition"
+        aria-label="music range"
+      />
     </RadixSlider.Root>
   );
 };

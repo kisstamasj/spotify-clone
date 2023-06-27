@@ -19,7 +19,7 @@ const Player = () => {
   }
 
   return (
-    <div className="fixed bottom-0 bg-black w-full py-2 h-[90px] px-4">
+    <div className="fixed bottom-0 bg-black w-full py-2 h-[90px] px-2 select-none">
       <PlayerContent
         song={song}
         songUrl={songUrl}

@@ -56,7 +56,7 @@ const useMediaSession = (
       navigator.mediaSession.metadata = new MediaMetadata({
         title: song.title,
         artist: song.author,
-        album: "asdasd",
+        album: "",
         artwork: imageSrc,
       });
 

@@ -9,12 +9,12 @@ import { Song } from "@/libs/types";
 import MediaItem from "./MediaItem";
 import LikeButton from "./LikeButton";
 import Slider from "./Slider";
-import usePlayer from "@/hooks/usePlayer";
 import useSound from "use-sound";
 import useMediaSession from "@/hooks/useMediaSession";
 import usePlayNext from "@/hooks/usePlayNext";
 import usePlayPrevious from "@/hooks/usePlayPrevious";
 import MusicRangeSlider from "./MusicRangeSlider";
+import { convertMsToTime, roundTo3Dec } from "@/libs/helpers";
 
 interface PlayerContentProps {
   song: Song;
@@ -42,6 +42,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
   const [play, { pause, sound: audio, duration }] = useSound(songUrl, {
     volume: volume,
     onplay: () => {
+      setRangeValue(0);
       setPlaybackStatePlay();
       setIsPlaying(true);
     },
@@ -66,15 +67,23 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
   }, [audio, play]);
 
   useEffect(() => {
-    // if the music is paused then we also can change the range value
-    setRangeValue(timeSpent / duration!);
-    if (!isPlaying) return;
+    if (!isPlaying || !duration) return;
     const interval = setInterval(() => {
-      if (duration) {
-        setTimeSpent((prev) => prev + 50);
-        setRangeValue(timeSpent / duration);
-      }
-    }, 50);
+      setTimeSpent((prev) => prev + 1000);
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isPlaying, duration]);
+
+  useEffect(() => {
+    // if the music is paused then we also can change the range value
+    setRangeValue(roundTo3Dec(timeSpent / duration!));
+    if (!isPlaying || !duration) return;
+    const interval = setInterval(() => {
+      setRangeValue(roundTo3Dec(timeSpent / duration));
+    }, 1000);
 
     return () => {
       clearInterval(interval);
@@ -99,45 +108,41 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
 
   const handleSeek = (value: number) => {
     if (!duration) return;
-
     let timeSpent = duration * value;
     audio.seek(timeSpent / 1000);
     setTimeSpent(timeSpent);
   };
 
   return (
-    <div className="flex flex-col flex-1">
-      <div className="w-full">
-        <MusicRangeSlider value={rangeValue} onChange={handleSeek} />
+    <div className="grid grid-cols-2 md:grid-cols-3 h-full">
+      <div className="flex w-full justify-start">
+        <div className="flex items-center gap-x-4">
+          <MediaItem data={song} onClick={() => {}} />
+          <LikeButton songId={song.id} />
+        </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 h-full">
-        <div className="flex w-full justify-start">
-          <div className="flex items-center gap-x-4">
-            <MediaItem data={song} onClick={() => {}} />
-            <LikeButton songId={song.id} />
-          </div>
+      {/* Mobile controls */}
+      <div className="flex md:hidden col-auto w-full justify-end items-center gap-x-3">
+        <AiFillStepBackward
+          size={30}
+          className="text-neutral-400 cursor-pointer hover:text-white transition"
+          onClick={onPlayPrevious}
+        />
+        <div
+          onClick={handlePlay}
+          className="h-10 w-10 flex justify-center items-center rounded-full bg-white p-1 cursor-pointer"
+        >
+          <PlayPauseIcon size={30} className="text-black" />
         </div>
-        {/* Mobile controls */}
-        <div className="flex md:hidden col-auto w-full justify-end items-center gap-x-3">
-          <AiFillStepBackward
-            size={30}
-            className="text-neutral-400 cursor-pointer hover:text-white transition"
-            onClick={onPlayPrevious}
-          />
-          <div
-            onClick={handlePlay}
-            className="h-10 w-10 flex justify-center items-center rounded-full bg-white p-1 cursor-pointer"
-          >
-            <PlayPauseIcon size={30} className="text-black" />
-          </div>
-          <AiFillStepForward
-            size={30}
-            className="text-neutral-400 cursor-pointer hover:text-white transition"
-            onClick={onPlayNext}
-          />
-        </div>
-        {/* Desktop controls */}
-        <div className="hidden h-full md:flex justify-center items-center w-full max-w-[722px] gap-x-6">
+        <AiFillStepForward
+          size={30}
+          className="text-neutral-400 cursor-pointer hover:text-white transition"
+          onClick={onPlayNext}
+        />
+      </div>
+      {/* Desktop controls */}
+      <div className="hidden h-full md:flex items-center justify-center flex-col gap-y-0.5">
+        <div className="h-full flex justify-center items-center w-full max-w-[722px] gap-x-6">
           <AiFillStepBackward
             size={30}
             className="text-neutral-400 cursor-pointer hover:text-white transition"
@@ -155,16 +160,27 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
             onClick={onPlayNext}
           />
         </div>
-        {/* Only on desktop */}
-        <div className="hidden md:flex w-full justify-end pr-2">
-          <div className="flex items-center gap-x-2 w-[120px]">
-            <VolumeIcon
-              onClick={toggleMute}
-              className="cursor-pointer"
-              size={34}
-            />
-            <Slider value={volume} onChange={(value) => setVolume(value)} />
+        <div className="w-full flex items-center justify-center flex-row gap-x-2 pb-2 grow-0 shrink-0">
+          <div className="text-xs text-neutral-400 w-[50px] flex justify-end">
+            {convertMsToTime(timeSpent)}
           </div>
+          <div className="w-full">
+            <MusicRangeSlider value={rangeValue} onChange={handleSeek} />
+          </div>
+          <div className="text-xs text-neutral-400 w-[50px] flex justify-start">
+            {convertMsToTime(duration!)}
+          </div>
+        </div>
+      </div>
+      {/* Only on desktop */}
+      <div className="hidden md:flex w-full justify-end pr-2">
+        <div className="flex items-center gap-x-2 w-[120px]">
+          <VolumeIcon
+            onClick={toggleMute}
+            className="cursor-pointer"
+            size={25}
+          />
+          <Slider value={volume} onChange={(value) => setVolume(value)} />
         </div>
       </div>
     </div>

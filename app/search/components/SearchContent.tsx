@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Song } from "../../../libs/types";
-import SongItem from "../../../components/SongItem";
 import MediaItem from "../../../components/MediaItem";
 import LikeButton from "../../../components/LikeButton";
 import useOnPLay from "@/hooks/useOnPlay";
