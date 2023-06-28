@@ -60,6 +60,12 @@ const useMediaSession = (
         artwork: imageSrc,
       });
 
+      navigator.mediaSession.setPositionState({
+        duration: audio.duration(),
+        playbackRate: audio.rate(),
+        position: audio.pos()[0],
+      });
+
       for (const { action, handler } of actionHandlers) {
         try {
           navigator.mediaSession.setActionHandler(action, handler);
