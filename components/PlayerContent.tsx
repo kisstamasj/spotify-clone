@@ -33,8 +33,12 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
   const [isPlaying, setIsPlaying] = useState(true);
   const [rangeValue, setRangeValue] = useState(0);
   const [timeSpent, setTimeSpent] = useState(0);
-  const { onMediaSession, setPlaybackStatePause, setPlaybackStatePlay } =
-    useMediaSession(song, imageUrl, onPlayNext, onPlayPrevious);
+  const {
+    onMediaSession,
+    setPlaybackStatePause,
+    setPlaybackStatePlay,
+    setMediaPosition,
+  } = useMediaSession(song, imageUrl, onPlayNext, onPlayPrevious);
 
   const PlayPauseIcon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
@@ -83,12 +87,13 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     if (!isPlaying || !duration) return;
     const interval = setInterval(() => {
       setRangeValue(roundTo3Dec(timeSpent / duration));
+      setMediaPosition(audio);
     }, 1000);
 
     return () => {
       clearInterval(interval);
     };
-  }, [isPlaying, timeSpent, duration]);
+  }, [isPlaying, timeSpent, duration, setMediaPosition, audio]);
 
   const handlePlay = () => {
     if (!isPlaying) return play();
@@ -106,6 +111,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     if (!duration) return;
     let timeSpent = duration * value;
     audio.seek(timeSpent / 1000);
+    setMediaPosition(audio);
     setTimeSpent(timeSpent);
   };
 

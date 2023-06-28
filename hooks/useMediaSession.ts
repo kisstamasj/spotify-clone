@@ -78,6 +78,14 @@ const useMediaSession = (
     }
   };
 
+  const setMediaPosition = (audio: Howl) => {
+    navigator.mediaSession.setPositionState({
+      duration: audio.duration(),
+      playbackRate: audio.rate(),
+      position: audio.pos()[0],
+    });
+  };
+
   const setPlaybackStatePlay = () => {
     navigator.mediaSession.playbackState = "playing";
   };
@@ -86,7 +94,12 @@ const useMediaSession = (
     navigator.mediaSession.playbackState = "paused";
   };
 
-  return { onMediaSession, setPlaybackStatePlay, setPlaybackStatePause };
+  return {
+    onMediaSession,
+    setPlaybackStatePlay,
+    setPlaybackStatePause,
+    setMediaPosition,
+  };
 };
 
 export default useMediaSession;
