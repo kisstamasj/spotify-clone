@@ -14,7 +14,8 @@ import useMediaSession from "@/hooks/useMediaSession";
 import usePlayNext from "@/hooks/usePlayNext";
 import usePlayPrevious from "@/hooks/usePlayPrevious";
 import MusicRangeSlider from "./MusicRangeSlider";
-import { convertMsToTime, roundTo3Dec } from "@/libs/helpers";
+import { convertMsToTime, convertSecToTime, roundTo3Dec } from "@/libs/helpers";
+import useSeek from "@/hooks/useSeekTo";
 
 interface PlayerContentProps {
   song: Song;
@@ -27,18 +28,9 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
   songUrl,
   imageUrl,
 }) => {
-  const onPlayNext = usePlayNext();
-  const onPlayPrevious = usePlayPrevious();
   const [volume, setVolume] = useState(1);
   const [isPlaying, setIsPlaying] = useState(true);
   const [rangeValue, setRangeValue] = useState(0);
-  const [timeSpent, setTimeSpent] = useState(0);
-  const {
-    onMediaSession,
-    setPlaybackStatePause,
-    setPlaybackStatePlay,
-    setMediaPosition,
-  } = useMediaSession(song, imageUrl, onPlayNext, onPlayPrevious);
 
   const PlayPauseIcon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
@@ -46,7 +38,6 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
   const [play, { pause, sound: audio, duration }] = useSound(songUrl, {
     volume: volume,
     onplay: () => {
-      setRangeValue(0);
       setPlaybackStatePlay();
       setIsPlaying(true);
     },
@@ -61,39 +52,42 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     html5: true,
   });
 
-  onMediaSession(audio);
+  const onPlayNext = usePlayNext();
+  const onPlayPrevious = usePlayPrevious();
+  const { updateRangeValue, getSeek, onSeekTo, getDuration } = useSeek(
+    audio,
+    setRangeValue
+  );
+
+  const {
+    setMediaSession,
+    setPlaybackStatePause,
+    setPlaybackStatePlay,
+    updateMediaPosition,
+  } = useMediaSession(audio, song, imageUrl, onPlayNext, onPlayPrevious);
 
   useEffect(() => {
     audio?.play();
+    setMediaSession();
     return () => {
       audio?.unload();
     };
   }, [audio, play]);
 
   useEffect(() => {
-    if (!isPlaying || !duration) return;
-    const interval = setInterval(() => {
-      setTimeSpent((prev) => prev + 1000);
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [isPlaying, duration]);
-
-  useEffect(() => {
+    if (!audio) return;
     // if the music is paused then we also can change the range value
-    setRangeValue(roundTo3Dec(timeSpent / duration!));
-    if (!isPlaying || !duration) return;
+    updateRangeValue();
+    if (!isPlaying || !getDuration()) return;
     const interval = setInterval(() => {
-      setRangeValue(roundTo3Dec(timeSpent / duration));
-      setMediaPosition(audio);
+      updateRangeValue();
+      updateMediaPosition();
     }, 1000);
 
     return () => {
       clearInterval(interval);
     };
-  }, [isPlaying, timeSpent, duration, setMediaPosition, audio]);
+  }, [isPlaying, updateMediaPosition, audio]);
 
   const handlePlay = () => {
     if (!isPlaying) return play();
@@ -107,12 +101,9 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     setVolume(0);
   };
 
-  const handleSeek = (value: number) => {
-    if (!duration) return;
-    let timeSpent = duration * value;
-    audio.seek(timeSpent / 1000);
-    setMediaPosition(audio);
-    setTimeSpent(timeSpent);
+  const handleOnSeek = (rangeValue: number) => {
+    onSeekTo(rangeValue);
+    updateMediaPosition();
   };
 
   return (
@@ -164,13 +155,13 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
         </div>
         <div className="w-full flex items-center justify-center flex-row gap-x-2 pb-2 grow-0 shrink-0">
           <div className="text-xs text-neutral-400 w-[50px] flex justify-end">
-            {convertMsToTime(timeSpent)}
+            {convertSecToTime(getSeek())}
           </div>
           <div className="w-full">
-            <MusicRangeSlider value={rangeValue} onChange={handleSeek} />
+            <MusicRangeSlider value={rangeValue} onChange={handleOnSeek} />
           </div>
           <div className="text-xs text-neutral-400 w-[50px] flex justify-start">
-            {convertMsToTime(duration!)}
+            {convertSecToTime(getDuration())}
           </div>
         </div>
       </div>

@@ -59,4 +59,17 @@ export const convertMsToTime = (milliseconds: number) => {
   return `${hoursString}${padTo2Digits(minutes)}:${padTo2Digits(seconds)}`;
 };
 
+export const convertSecToTime = (seconds: number) => {
+  seconds = Math.floor(seconds);
+  let minutes = Math.floor(seconds / 60);
+  let hours = Math.floor(minutes / 60);
+
+  seconds = seconds % 60;
+  minutes = minutes % 60;
+
+  let hoursString = hours ? `${padTo2Digits(hours)}:` : "";
+
+  return `${hoursString}${padTo2Digits(minutes)}:${padTo2Digits(seconds)}`;
+};
+
 export const roundTo3Dec = (num: number) => Math.floor(num * 1000) / 1000;

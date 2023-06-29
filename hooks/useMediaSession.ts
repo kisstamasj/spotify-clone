@@ -7,13 +7,14 @@ type ActionHandlersType = {
 };
 
 const useMediaSession = (
+  audio: Howl,
   song: Song,
   imageUrl: string | undefined,
   onPlayNext: () => void,
   onPlayPrevious: () => void
 ) => {
   const MEDIA_SESSION_ENABLED = "mediaSession" in navigator;
-  const onMediaSession = async (audio: Howl) => {
+  const setMediaSession = async () => {
     const actionHandlers: ActionHandlersType[] = [
       {
         action: "play",
@@ -60,11 +61,13 @@ const useMediaSession = (
         artwork: imageSrc,
       });
 
-      navigator.mediaSession.setPositionState({
-        duration: audio.duration(),
-        playbackRate: audio.rate(),
-        position: audio.pos()[0],
-      });
+      if (audio) {
+        navigator.mediaSession.setPositionState({
+          duration: audio.duration(),
+          playbackRate: audio.rate(),
+          position: audio.pos()[0],
+        });
+      }
 
       for (const { action, handler } of actionHandlers) {
         try {
@@ -78,11 +81,12 @@ const useMediaSession = (
     }
   };
 
-  const setMediaPosition = (audio: Howl) => {
+  const updateMediaPosition = () => {
+    if (!audio) return;
     navigator.mediaSession.setPositionState({
       duration: audio.duration(),
       playbackRate: audio.rate(),
-      position: audio.pos()[0],
+      position: audio.seek(),
     });
   };
 
@@ -95,10 +99,10 @@ const useMediaSession = (
   };
 
   return {
-    onMediaSession,
+    setMediaSession,
     setPlaybackStatePlay,
     setPlaybackStatePause,
-    setMediaPosition,
+    updateMediaPosition,
   };
 };
 
