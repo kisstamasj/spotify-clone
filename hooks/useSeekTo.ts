@@ -6,7 +6,6 @@ const useSeek = (audio: Howl, setRangeValue: (num: number) => void) => {
     if (!audio) return;
     let seek = audio.duration() * rangeValue;
     audio.seek(seek);
-    // setMediaPosition(audio);
     updateRangeValue();
   };
 
