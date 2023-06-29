@@ -9,11 +9,7 @@
 4. Run the development server:
 
 ```bash
-npm run dev
-# or
 yarn dev
-# or
-pnpm dev
 ```
 
 5. Listen stripe webooks (only in dev)
