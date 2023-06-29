@@ -3,7 +3,7 @@ import { Howl } from "howler";
 
 type ActionHandlersType = {
   action: MediaSessionAction;
-  handler: () => void;
+  handler: (data: any | undefined) => void;
 };
 
 const useMediaSession = (
@@ -40,6 +40,10 @@ const useMediaSession = (
           onPlayPrevious();
         },
       },
+      {
+        action: "seekto",
+        handler: (details: any) => {},
+      },
     ];
 
     let imageSrc: { src: string; sizes: string; type: string }[] = [];
@@ -61,13 +65,7 @@ const useMediaSession = (
         artwork: imageSrc,
       });
 
-      if (audio) {
-        navigator.mediaSession.setPositionState({
-          duration: audio.duration(),
-          playbackRate: audio.rate(),
-          position: audio.pos()[0],
-        });
-      }
+      updateMediaPosition();
 
       for (const { action, handler } of actionHandlers) {
         try {
