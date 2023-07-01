@@ -14,7 +14,7 @@ import useMediaSession from "@/hooks/useMediaSession";
 import usePlayNext from "@/hooks/usePlayNext";
 import usePlayPrevious from "@/hooks/usePlayPrevious";
 import MusicRangeSlider from "./MusicRangeSlider";
-import { convertMsToTime, convertSecToTime, roundTo3Dec } from "@/libs/helpers";
+import { convertSecToTime } from "@/libs/helpers";
 import useSeek from "@/hooks/useSeekTo";
 
 interface PlayerContentProps {
@@ -35,7 +35,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
   const PlayPauseIcon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
 
-  const [play, { pause, sound: audio, duration }] = useSound(songUrl, {
+  const [play, { pause, sound: audio }] = useSound(songUrl, {
     volume: volume,
     onplay: () => {
       setPlaybackStatePlay();
@@ -64,7 +64,14 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     setPlaybackStatePause,
     setPlaybackStatePlay,
     updateMediaPosition,
-  } = useMediaSession(audio, song, imageUrl, onPlayNext, onPlayPrevious);
+  } = useMediaSession(
+    audio,
+    song,
+    imageUrl,
+    onPlayNext,
+    onPlayPrevious,
+    onSeekTo
+  );
 
   useEffect(() => {
     audio?.play();

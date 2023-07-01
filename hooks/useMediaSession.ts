@@ -11,7 +11,8 @@ const useMediaSession = (
   song: Song,
   imageUrl: string | undefined,
   onPlayNext: () => void,
-  onPlayPrevious: () => void
+  onPlayPrevious: () => void,
+  onSeekTo: (num: number) => void
 ) => {
   const MEDIA_SESSION_ENABLED = "mediaSession" in navigator;
   const setMediaSession = async () => {
@@ -42,7 +43,11 @@ const useMediaSession = (
       },
       {
         action: "seekto",
-        handler: (details: any) => {},
+        handler: (details: any) => {
+          console.log({ details });
+          onSeekTo(details);
+          updateMediaPosition();
+        },
       },
     ];
 
@@ -81,12 +86,11 @@ const useMediaSession = (
 
   const updateMediaPosition = () => {
     if (!audio) return;
-    console.log({
+    navigator.mediaSession.setPositionState({
       duration: audio.duration(),
       playbackRate: audio.rate(),
       position: audio.seek(),
     });
-    navigator.mediaSession.setPositionState();
   };
 
   const setPlaybackStatePlay = () => {
