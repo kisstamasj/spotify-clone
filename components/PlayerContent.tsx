@@ -85,6 +85,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     if (!audio) return;
     // if the music is paused then we also can change the range value
     updateRangeValue();
+    updateMediaPosition();
     if (!isPlaying || !getDuration()) return;
     const interval = setInterval(() => {
       updateRangeValue();
