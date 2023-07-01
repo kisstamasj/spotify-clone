@@ -72,7 +72,32 @@ const useMediaSession = (
         {
           src: imageUrl,
           sizes: "96x96",
-          type: "image/jpg",
+          type: "image/png",
+        },
+        {
+          src: imageUrl,
+          sizes: "128x128",
+          type: "image/png",
+        },
+        {
+          src: imageUrl,
+          sizes: "192x192",
+          type: "image/png",
+        },
+        {
+          src: imageUrl,
+          sizes: "256x256",
+          type: "image/png",
+        },
+        {
+          src: imageUrl,
+          sizes: "384x384",
+          type: "image/png",
+        },
+        {
+          src: imageUrl,
+          sizes: "512x512",
+          type: "image/png",
         },
       ];
     }
@@ -104,12 +129,12 @@ const useMediaSession = (
     console.log({
       duration: audio.duration(),
       playbackRate: audio.rate(),
-      position: audio.seek(),
+      position: audio.seek() / audio.duration(),
     });
     navigator.mediaSession.setPositionState({
       duration: audio.duration(),
       playbackRate: audio.rate(),
-      position: audio.seek(),
+      position: audio.seek() / audio.duration(),
     });
   };
 
