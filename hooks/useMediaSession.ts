@@ -55,12 +55,14 @@ const useMediaSession = (
         action: "seekforward",
         handler: () => {
           onSeekTo(Math.min(audio.seek() + skipTime, audio.duration()));
+          updateMediaPosition();
         },
       },
       {
         action: "seekbackward",
         handler: () => {
           onSeekTo(Math.max(audio.seek() - skipTime, 0));
+          updateMediaPosition();
         },
       },
     ];
