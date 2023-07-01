@@ -6,6 +6,8 @@ type ActionHandlersType = {
   handler: (data: any | undefined) => void;
 };
 
+const skipTime = 5;
+
 const useMediaSession = (
   audio: Howl,
   song: Song,
@@ -47,6 +49,18 @@ const useMediaSession = (
           console.log({ details });
           onSeekTo(details);
           updateMediaPosition();
+        },
+      },
+      {
+        action: "seekforward",
+        handler: () => {
+          onSeekTo(Math.min(audio.seek() + skipTime, audio.duration()));
+        },
+      },
+      {
+        action: "seekbackward",
+        handler: () => {
+          onSeekTo(Math.max(audio.seek() - skipTime, 0));
         },
       },
     ];
