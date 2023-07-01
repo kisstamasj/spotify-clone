@@ -101,6 +101,11 @@ const useMediaSession = (
 
   const updateMediaPosition = () => {
     if (!audio) return;
+    console.log({
+      duration: audio.duration(),
+      playbackRate: audio.rate(),
+      position: audio.seek(),
+    });
     navigator.mediaSession.setPositionState({
       duration: audio.duration(),
       playbackRate: audio.rate(),
