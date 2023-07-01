@@ -129,12 +129,12 @@ const useMediaSession = (
     console.log({
       duration: audio.duration(),
       playbackRate: audio.rate(),
-      position: audio.seek() / audio.duration(),
+      position: audio.seek(),
     });
     navigator.mediaSession.setPositionState({
       duration: audio.duration(),
       playbackRate: audio.rate(),
-      position: audio.seek() / audio.duration(),
+      position: audio.seek(),
     });
   };
 
