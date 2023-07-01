@@ -46,8 +46,7 @@ const useMediaSession = (
       {
         action: "seekto",
         handler: (details: any) => {
-          console.log({ details });
-          onSeekTo(details);
+          onSeekTo(details.seekTime / audio.duration());
           updateMediaPosition();
         },
       },
